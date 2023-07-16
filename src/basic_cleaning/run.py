@@ -13,7 +13,19 @@ logger = logging.getLogger()
 
 
 def go(args):
+    """
+    Performs basic cleaning on a DataFrame containing housing data.
 
+    Args:
+        args (Namespace): An object containing the command-line arguments and configurations.
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    """
     run = wandb.init(job_type="basic_cleaning")
     run.config.update(args)
 
@@ -29,6 +41,7 @@ def go(args):
     idx = df['price'].between(args.min_price, args.max_price)
     df = df[idx]
 
+    # remove data points that are outside of the NYC
     idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
     df = df[idx].copy()
 
